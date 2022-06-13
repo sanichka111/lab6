@@ -1,0 +1,257 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap");
+
+html,
+body {
+    height: 100%;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --flip-height: 100px;
+    --flip-width: calc(var(--flip-height) * 0.6);
+    --line-height: calc(var(--flip-height) * 0.5);
+    --flip-container-color: #171717;
+    --flip-color: #171717;
+    --flip-text-color: #efefef;
+    --flip-border-radius: calc(var(--flip-height) * 0.05);
+    --animation-time: 0.8s;
+    --animation-ease: linear;
+    --perspective: 200px;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(#396f61, #b3c42f);
+}
+
+.flip {
+    height: var(--flip-height);
+    width: var(--flip-width);
+    border-radius: 4px;
+    font-size: calc(var(--flip-height) * 0.5);
+    font-weight: 700;
+    position: relative;
+    margin: 0.1rem;
+}
+
+.flip .flip-display {
+    height: var(--flip-height);
+    width: var(--flip-width);
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+}
+
+.flip .flip-display .flip-display-top,
+.flip .flip-display .flip-display-bottom {
+    position: relative;
+    text-align: center;
+    overflow: hidden;
+    width: 100%;
+    height: calc(var(--flip-height) * 0.5);
+    color: var(--flip-text-color);
+    background-color: var(--flip-container-color);
+    line-height: calc(var(--line-height) * var(--i));
+}
+
+.flip .flip-display .flip-display-top {
+    --i: 2;
+    border-top-left-radius: var(--flip-border-radius);
+    border-top-right-radius: var(--flip-border-radius);
+}
+
+.flip .flip-display .flip-display-bottom {
+    --i: -2;
+    border-bottom-left-radius: var(--flip-border-radius);
+    border-bottom-right-radius: var(--flip-border-radius);
+}
+
+.flip .flipper {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    height: var(--flip-height);
+    width: calc(var(--flip-width) * 1);
+    perspective: 200px;
+}
+
+.flip .flipper .flipper-top,
+.flip .flipper .flipper-bottom {
+    position: absolute;
+    left: -10%;
+    right: -10%;
+    width: calc(var(--flip-width));
+    margin: auto;
+    text-align: center;
+    height: calc(var(--flip-height) * 0.5);
+    line-height: calc(var(--line-height) * var(--i));
+    background-color: var(--flip-color);
+    overflow: hidden;
+    color: var(--flip-text-color);
+}
+
+.flip .flipper .flipper-top {
+    --i: 2;
+    top: 0;
+    transform-origin: bottom;
+    border-top-left-radius: var(--flip-border-radius);
+    border-top-right-radius: var(--flip-border-radius);
+}
+
+.flip .flipper .flipper-bottom {
+    --i: -2;
+    bottom: 0;
+    transform: rotateX(90deg);
+    transform-origin: top;
+    border-bottom-left-radius: var(--flip-border-radius);
+    border-bottom-right-radius: var(--flip-border-radius);
+}
+
+.flip.play .flipper-top {
+    -webkit-animation: flipperTopAnimation var(--animation-time) var(--animation-ease);
+    animation: flipperTopAnimation var(--animation-time) var(--animation-ease);
+}
+
+.flip.play .flipper-bottom {
+    -webkit-animation: flipperBottomAnimation var(--animation-time) var(--animation-ease);
+    animation: flipperBottomAnimation var(--animation-time) var(--animation-ease);
+}
+
+@-webkit-keyframes flipperTopAnimation {
+    0% {
+        transform: rotateX(0deg);
+    }
+    50%, 100% {
+        transform: rotateX(-90deg);
+    }
+}
+
+@keyframes flipperTopAnimation {
+    0% {
+        transform: rotateX(0deg);
+    }
+    50%, 100% {
+        transform: rotateX(-90deg);
+    }
+}
+
+@-webkit-keyframes flipperBottomAnimation {
+    0%, 50% {
+        transform: rotateX(90deg);
+    }
+    100% {
+        transform: rotateX(0deg);
+    }
+}
+
+@keyframes flipperBottomAnimation {
+    0%, 50% {
+        transform: rotateX(90deg);
+    }
+    100% {
+        transform: rotateX(0deg);
+    }
+}
+
+.flip-clock {
+    border: 1rem solid #212121;
+    background-color: #212121;
+    border-radius: 0.5rem;
+    position: relative;
+    display: flex;
+    flex-shrink: 0;
+}
+
+.flip-clock::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    bottom: -50%;
+    left: -50%;
+    right: -50%;
+    margin: auto;
+    height: 180%;
+    width: 120%;
+    border-radius: 0.5rem;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.5), transparent);
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25);
+    z-index: -1;
+}
+
+.flip-clock .seconds,
+.flip-clock .minutes,
+.flip-clock .hours {
+    z-index: 1;
+    display: inline-flex;
+    margin: 0.2rem;
+}
+
+.flip-clock .seconds .flip::before,
+.flip-clock .minutes .flip::before,
+.flip-clock .hours .flip::before {
+    content: "";
+    position: absolute;
+    height: 50%;
+    top: 0%;
+    left: 0%;
+    right: 0%;
+    margin: auto;
+    background-color: rgba(0, 0, 0, 0.15);
+    z-index: 3;
+}
+
+.flip-clock .seconds .flip-display-top,
+.flip-clock .seconds .flip-display-bottom,
+.flip-clock .seconds .flipper-top,
+.flip-clock .seconds .flipper-bottom,
+.flip-clock .minutes .flip-display-top,
+.flip-clock .minutes .flip-display-bottom,
+.flip-clock .minutes .flipper-top,
+.flip-clock .minutes .flipper-bottom,
+.flip-clock .hours .flip-display-top,
+.flip-clock .hours .flip-display-bottom,
+.flip-clock .hours .flipper-top,
+.flip-clock .hours .flipper-bottom {
+    color: #212121;
+}
+
+.flip-clock .seconds .flip-display-top,
+.flip-clock .seconds .flip-display-bottom,
+.flip-clock .minutes .flip-display-top,
+.flip-clock .minutes .flip-display-bottom,
+.flip-clock .hours .flip-display-top,
+.flip-clock .hours .flip-display-bottom {
+    background-image: radial-gradient(#ffffff, rgba(255, 255, 255, 0.85));
+}
+
+.flip-clock .seconds .flipper-top,
+.flip-clock .seconds .flipper-bottom,
+.flip-clock .minutes .flipper-top,
+.flip-clock .minutes .flipper-bottom,
+.flip-clock .hours .flipper-top,
+.flip-clock .hours .flipper-bottom {
+    background-image: radial-gradient(circle at center, #ffffff 5%, rgba(255, 255, 255, 0.85));
+}
+
+.otherPens {
+    display: inline-flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: auto;
+    font-family: "Inter", sans-serif;
+    text-decoration: none;
+    padding: 8px 16px;
+    background-color: #ecd749;
+    color: #000000;
+    text-transform: uppercase;
+}
